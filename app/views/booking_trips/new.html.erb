@@ -1,9 +1,24 @@
-<h1>New booking trip</h1>
+<!-- app/views/booking_trips/new.html.erb -->
+<div class="container">
+  <h1>Book Trip</h1>
 
-<%= render "form", booking_trip: @booking_trip %>
+  <%= form_with(model: [@trip, @booking_trip], url: trip_booking_trips_path(@trip), local: true) do |form| %>
+    <% @trip.add_ons.each do |add_on| %>
+      <% if add_on.bookable? %>
+        <div class="form-check">
+          <%= form.check_box :add_on_ids, { multiple: true }, add_on.id, nil %>
+          <%= form.label "add_on_ids_#{add_on.id}", "#{add_on.name} - #{add_on.start_time.strftime("%H:%M")} to #{add_on.end_time.strftime("%H:%M")}", class: "form-check-label" %>
+        </div>
+      <% else %>
+        <div class="form-check disabled">
+          <%= form.check_box :add_on_ids, { disabled: true }, add_on.id, nil %>
+          <%= form.label "add_on_ids_#{add_on.id}", "#{add_on.name} (Fully Booked)", class: "form-check-label text-muted" %>
+        </div>
+      <% end %>
+    <% end %>
 
-<br>
-
-<div>
-  <%= link_to "Back to booking trips", booking_trips_path %>
+    <div class="form-group">
+      <%= form.submit "Book", class: "btn btn-primary" %>
+    </div>
+  <% end %>
 </div>
