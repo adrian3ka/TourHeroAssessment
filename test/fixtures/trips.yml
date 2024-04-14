@@ -2,10 +2,14 @@
 
 one:
   name: MyString
+  description: Description
   start_date: 2024-04-14
-  end_date: 2024-04-14
+  end_date: 2024-04-30
+  price: 100
 
 two:
   name: MyString
+  description: Description
   start_date: 2024-04-14
-  end_date: 2024-04-14
+  end_date: 2024-04-25
+  price: 100

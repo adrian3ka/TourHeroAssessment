@@ -2,14 +2,55 @@
 
 one:
   name: MyString
-  start_time: 2024-04-14 13:13:29
-  end_time: 2024-04-14 13:13:29
+  description: String
+  start_time: 2024-04-14 01:00:00
+  end_time: 2024-04-14 02:00:00
   spot_limit: 1
   trip: one
+  price: 100
+
 
 two:
   name: MyString
-  start_time: 2024-04-14 13:13:29
-  end_time: 2024-04-14 13:13:29
+  description: String
+  start_time: 2024-04-14 03:00:00
+  end_time: 2024-04-14 04:00:00
+  spot_limit: 1
+  trip: one
+  price: 100
+
+three:
+  name: MyString
+  description: String
+  start_time: 2024-04-14 05:00:00
+  end_time: 2024-04-14 06:00:00
+  spot_limit: 1
+  trip: one
+  price: 100
+
+conflicting_one:
+  name: MyString
+  description: String
+  start_time: 2024-04-14 01:00:00
+  end_time: 2024-04-14 02:00:00
+  spot_limit: 1
+  trip: one
+  price: 100
+
+conflicting_two:
+  name: MyString
+  description: String
+  start_time: 2024-04-14 01:30:00
+  end_time: 2024-04-14 02:00:00
+  spot_limit: 1
+  trip: one
+  price: 100
+
+four:
+  name: MyString
+  description: String
+  start_time: 2024-04-14 00:22:34
+  end_time: 2024-04-14 00:22:34
   spot_limit: 1
   trip: two
+  price: 100
