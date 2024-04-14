@@ -1,10 +1,34 @@
-<p style="color: green"><%= notice %></p>
+<div class="container">
+  <h1><%= @trip.name %></h1>
+  <p><strong>Description:</strong> <%= @trip.description %></p>
+  <% if user_signed_in? %>
+    <%= link_to 'Book Now', new_trip_booking_trip_path(@trip), class: 'btn btn-primary' %>
+  <% end %>
 
-<%= render @trip %>
-
-<div>
-  <%= link_to "Edit this trip", edit_trip_path(@trip) %> |
-  <%= link_to "Back to trips", trips_path %>
-
-  <%= button_to "Destroy this trip", @trip, method: :delete %>
+  <%= link_to 'Add Add-on', new_trip_add_on_path(@trip), class: 'btn btn-primary' %>
+  <h2>Add-ons Available</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Spot Limit</th>
+        <th>Booked</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @trip.add_ons.each do |addon| %>
+        <tr>
+          <td><%= addon.name %></td>
+          <td><%= addon.description %></td> <!-- Added column for add-on description -->
+          <td><%= addon.start_time.strftime("%H:%M") %></td>
+          <td><%= addon.end_time.strftime("%H:%M") %></td>
+          <td><%= addon.spot_limit %></td>
+          <td><%= addon.booking_trip_add_ons.count %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>

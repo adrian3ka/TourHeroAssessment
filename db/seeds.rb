@@ -38,7 +38,28 @@ puts "Seeding trips..."
     price: price
   )
   puts "Trip created with name: #{trip.name}"
+
+  # Seed AddOns for each trip
+  if trip.id % 3 != 0
+    puts "Seeding add-ons for trip #{trip.name}..."
+    3.times do
+      spot_limit = [nil, Faker::Number.between(from: 2, to: 4)].sample
+      price = Faker::Number.between(from: 10, to: 20)
+      add_on = AddOn.create!(
+        name: Faker::Lorem.words(number: 3).join(' '),
+        start_time: Faker::Time.between_dates(from: trip.start_date, to: trip.end_date, period: :afternoon),
+        end_time: Faker::Time.between_dates(from: trip.start_date, to: trip.end_date, period: :evening),
+        spot_limit: spot_limit,
+        trip_id: trip.id,
+        description: Faker::Lorem.words(number: 30).join(' '),
+        price: price
+      )
+      puts "Add-on created with name: #{add_on.name}"
+    end
+  else
+    puts "This trip has no add-ons."
+  end
 end
-puts "Trips seeded successfully."
+puts "Trips and add-ons seeded successfully."
 
 puts "Seeding completed successfully."
