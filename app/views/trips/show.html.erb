@@ -31,4 +31,26 @@
       <% end %>
     </tbody>
   </table>
+
+  <h2>List of Guests</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th>Add-ons Booked</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @trip.booking_trips.each do |booking| %>
+        <tr>
+          <td><%= booking.user.email %></td>
+          <td>
+            <% booking.booking_trip_add_ons.each do |booking_addon| %>
+              <%= booking_addon.add_on.name %><br>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>
