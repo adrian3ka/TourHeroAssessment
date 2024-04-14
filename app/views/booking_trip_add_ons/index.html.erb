@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Booking trip add ons</h1>
+
+<div id="booking_trip_add_ons">
+  <% @booking_trip_add_ons.each do |booking_trip_add_on| %>
+    <%= render booking_trip_add_on %>
+    <p>
+      <%= link_to "Show this booking trip add on", booking_trip_add_on %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New booking trip add on", new_booking_trip_add_on_path %>

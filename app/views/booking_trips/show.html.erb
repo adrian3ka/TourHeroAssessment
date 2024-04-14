@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @booking_trip %>
+
+<div>
+  <%= link_to "Edit this booking trip", edit_booking_trip_path(@booking_trip) %> |
+  <%= link_to "Back to booking trips", booking_trips_path %>
+
+  <%= button_to "Destroy this booking trip", @booking_trip, method: :delete %>
+</div>

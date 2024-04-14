@@ -1,0 +1,2 @@
+module BookingTripsHelper
+end
