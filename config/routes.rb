@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
-  resources :booking_trip_add_ons
-  resources :booking_trips
-  resources :add_ons
-  resources :trips
+  resources :trips, only: [:index, :new, :create, :show] do
+    resources :add_ons, only: [:new, :create]
+    resources :booking_trips, only: [:new, :create]
+  end
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
