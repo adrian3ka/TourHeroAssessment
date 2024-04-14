@@ -89,6 +89,7 @@ selected_trips.each do |trip|
 
     selected_add_ons.each do |add_on|
       # Check if the add-on is already associated with this booking trip
+      next unless add_on.bookable?
       next if BookingTripAddOn.exists?(booking_trip_id: booking_trip.id, add_on_id: add_on.id)
 
       BookingTripAddOn.create(booking_trip: booking_trip, add_on: add_on)

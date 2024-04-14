@@ -12,6 +12,10 @@ class AddOn < ApplicationRecord
   validates :end_time, presence: true
   validates :price, presence: true
 
+  def bookable?
+    spot_limit.nil? || spot_limit > booking_trip_add_ons.count
+  end
+
   belongs_to :trip
   has_many :booking_trip_add_ons
   has_many :booking_trips, through: :booking_trip_add_ons
