@@ -62,4 +62,40 @@ puts "Seeding trips..."
 end
 puts "Trips and add-ons seeded successfully."
 
+# Select some trips
+selected_trips = Trip.limit(3)
+
+# Book some trips by users
+puts "Booking trips..."
+selected_trips.each do |trip|
+  20.times do
+    user = User.offset(rand(User.count)).first
+    # Check if the user has already booked this trip
+    next if BookingTrip.exists?(user_id: user.id, trip_id: trip.id)
+
+    booking_trip = BookingTrip.create(user: user, trip: trip)
+    puts "Trip #{trip.name} booked by user #{user.email}"
+  end
+end
+puts "Trips booked successfully."
+
+# Create booking trip add ons for some trips
+puts "Creating booking trip add-ons..."
+selected_trips.each do |trip|
+  next if trip.add_ons.empty?
+
+  trip.booking_trips.each do |booking_trip|
+    selected_add_ons = trip.add_ons.sample(2)
+
+    selected_add_ons.each do |add_on|
+      # Check if the add-on is already associated with this booking trip
+      next if BookingTripAddOn.exists?(booking_trip_id: booking_trip.id, add_on_id: add_on.id)
+
+      BookingTripAddOn.create(booking_trip: booking_trip, add_on: add_on)
+      puts "Add-on #{add_on.name} added to booking trip #{booking_trip.id}"
+    end
+  end
+end
+puts "Booking trip add-ons created successfully."
+
 puts "Seeding completed successfully."
