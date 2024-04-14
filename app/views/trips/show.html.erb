@@ -2,7 +2,11 @@
   <h1><%= @trip.name %></h1>
   <p><strong>Description:</strong> <%= @trip.description %></p>
   <% if user_signed_in? %>
-    <%= link_to 'Book Now', new_trip_booking_trip_path(@trip), class: 'btn btn-primary' %>
+    <% if @trip.booked_by_user?(current_user) %>
+      <span class="text-success">Booked</span>
+    <% else %>
+      <%= link_to 'Book Now', new_trip_booking_trip_path(@trip), class: 'btn btn-primary' %>
+    <% end %>
   <% end %>
 
   <%= link_to 'Add Add-on', new_trip_add_on_path(@trip), class: 'btn btn-primary' %>
@@ -16,6 +20,7 @@
         <th>End Time</th>
         <th>Spot Limit</th>
         <th>Booked</th>
+        <th>Info</th>
       </tr>
     </thead>
     <tbody>
@@ -27,6 +32,13 @@
           <td><%= addon.end_time.strftime("%H:%M") %></td>
           <td><%= addon.spot_limit %></td>
           <td><%= addon.booking_trip_add_ons.count %></td>
+          <td>
+            <% if addon.bookable? %>
+              <span class="text-success">Bookable</span>
+            <% else %>
+              <span class="text-danger">Fully Booked</span>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>
@@ -38,6 +50,7 @@
       <tr>
         <th>Email</th>
         <th>Add-ons Booked</th>
+        <th>Total Amount</th>
       </tr>
     </thead>
     <tbody>
@@ -49,6 +62,7 @@
               <%= booking_addon.add_on.name %><br>
             <% end %>
           </td>
+          <td><%= booking.total_amount %></td>
         </tr>
       <% end %>
     </tbody>

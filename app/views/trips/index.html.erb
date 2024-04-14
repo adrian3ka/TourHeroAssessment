@@ -6,6 +6,7 @@
         <th scope="col">Name</th>
         <th scope="col">Start Date</th>
         <th scope="col">End Date</th>
+        <th scope="col">Booked</th>
         <th scope="col">Action</th>
       </tr>
     </thead>
@@ -16,7 +17,21 @@
           <td><%= trip.start_date.strftime("%B %d, %Y") %></td>
           <td><%= trip.end_date.strftime("%B %d, %Y") %></td>
           <td>
+            <% if user_signed_in? %>
+              <% if trip.booked_by_user?(current_user) %>
+                <span class="text-success">Booked</span>
+              <% else %>
+                <span class="text-muted">Not Booked</span>
+              <% end %>
+            <% else %>
+              <span class="text-muted">Login to check</span>
+            <% end %>
+          </td>
+          <td>
             <%= link_to 'View Details', trip_path(trip), class: 'btn btn-primary' %>
+            <% if user_signed_in? && !trip.booked_by_user?(current_user) %>
+              <%= link_to 'Book Now', new_trip_booking_trip_path(trip), class: 'btn btn-primary' %>
+            <% end %>
           </td>
         </tr>
       <% end %>

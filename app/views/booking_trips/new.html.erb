@@ -1,24 +1,90 @@
-<!-- app/views/booking_trips/new.html.erb -->
 <div class="container">
-  <h1>Book Trip</h1>
+  <h1>Book Trip: <%= @trip.name %></h1>
 
   <%= form_with(model: [@trip, @booking_trip], url: trip_booking_trips_path(@trip), local: true) do |form| %>
-    <% @trip.add_ons.each do |add_on| %>
-      <% if add_on.bookable? %>
-        <div class="form-check">
-          <%= form.check_box :add_on_ids, { multiple: true }, add_on.id, nil %>
-          <%= form.label "add_on_ids_#{add_on.id}", "#{add_on.name} - #{add_on.start_time.strftime("%H:%M")} to #{add_on.end_time.strftime("%H:%M")}", class: "form-check-label" %>
-        </div>
-      <% else %>
-        <div class="form-check disabled">
-          <%= form.check_box :add_on_ids, { disabled: true }, add_on.id, nil %>
-          <%= form.label "add_on_ids_#{add_on.id}", "#{add_on.name} (Fully Booked)", class: "form-check-label text-muted" %>
-        </div>
-      <% end %>
-    <% end %>
 
-    <div class="form-group">
-      <%= form.submit "Book", class: "btn btn-primary" %>
+    <!-- Left Side -->
+    <div class="row">
+      <div class="col-md-9">
+        <div class="border rounded p-3 mb-4">
+          <p><strong>Description:</strong> <%= @trip.description %></p>
+          <% @trip.add_ons.each do |add_on| %>
+            <% if add_on.bookable? %>
+              <div class="form-check">
+                <%= form.check_box :add_on_ids, { multiple: true, class: "form-check-input", "data-price": add_on.price, onclick: "calculatePrice()" }, add_on.id, nil %>
+                <%= form.label "add_on_ids_#{add_on.id}", "#{add_on.name} ($#{add_on.price}) - #{add_on.start_time.strftime("%H:%M")} to #{add_on.end_time.strftime("%H:%M")}", class: "form-check-label" %>
+              </div>
+            <% else %>
+              <div class="form-check disabled">
+                <%= form.check_box :add_on_ids, { disabled: true, class: "form-check-input" }, add_on.id, nil %>
+                <%= form.label "add_on_ids_#{add_on.id}", "#{add_on.name} (Fully Booked)", class: "form-check-label text-muted" %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+
+        <!-- Terms and Agreement -->
+        <div class="form-group mt-4">
+          <%= form.check_box :agree_terms, class: "form-check-input", required: true %>
+          <%= form.label :agree_terms, "I agree to the terms and conditions", class: "form-check-label", required: true %>
+        </div>
+
+        <!-- Confirm and Pay Button -->
+        <div class="form-group">
+          <%= form.submit "Confirm & Pay", class: "btn btn-primary" %>
+        </div>
+      </div>
+
+      <!-- Right Side -->
+      <div class="col-md-3">
+        <!-- Trip Summary -->
+        <div class="trip-summary-box border rounded p-3 mb-4">
+          <h2 class="text-center">Trip Summary</h2>
+          <img src="https://via.placeholder.com/150" alt="Trip Image" class="img-fluid mx-auto d-block mb-3">
+          <p class="text-center"><strong><%= @trip.name %></strong></p>
+          <p class="text-center">Start Date: <%= @trip.start_date.strftime("%B %d, %Y") %></p>
+          <p class="text-center">End Date: <%= @trip.end_date.strftime("%B %d, %Y") %></p>
+          <p class="text-center" id="current-price">Current Price: $<%= @trip.price %></p>
+        </div>
+
+        <!-- Included Features -->
+        <div class="included-features-box border rounded p-3 mb-4">
+          <h2 class="text-center">Included Features</h2>
+          <ul>
+            <li>All accommodations</li>
+            <li>All activities described in the itinerary</li>
+            <li>24/7 guest support</li>
+            <!-- Add more included features here -->
+          </ul>
+        </div>
+
+        <!-- Cancellation Policy -->
+        <div class="cancellation-policy-box border rounded p-3">
+          <h2 class="text-center">Cancellation Policy</h2>
+          <h4>Refund for Deposits</h4>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu nisi id leo gravida lacinia vel eget dui.</p>
+          <h4>Refund for Fully-paid Trips</h4>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu nisi id leo gravida lacinia vel eget dui.</p>
+        </div>
+      </div>
     </div>
   <% end %>
 </div>
+
+<script>
+    // Function to calculate the current price
+    function calculatePrice() {
+      const tripPrice = <%= @trip.price %>;
+      const addOns = document.querySelectorAll('input[name="booking_trip[add_on_ids][]"]:checked');
+      let addOnPrice = 0;
+
+      addOns.forEach(function(addOn) {
+        addOnPrice += parseInt(addOn.dataset.price);
+      });
+
+      const totalPrice = tripPrice + addOnPrice;
+      document.getElementById("current-price").innerHTML = "Current Price: $" + totalPrice.toFixed(2);
+    }
+
+    calculatePrice();
+</script>
