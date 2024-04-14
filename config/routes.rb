@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  root "welcome#index"
+
   resources :trips, only: [:index, :new, :create, :show] do
     resources :add_ons, only: [:new, :create]
     resources :booking_trips, only: [:new, :create]
