@@ -1,3 +1,27 @@
 <div class="container">
-  Test
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h1 class="text-center mb-5">Welcome to Tourhero</h1>
+      <div class="card-deck">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Create a New Trip</h5>
+            <p class="card-text">Start planning your next adventure.</p>
+            <% if user_signed_in? %>
+              <%= link_to 'Create Trip', new_trip_path, class: 'btn btn-primary' %>
+            <% else %>
+              <%= link_to 'Sign In to Create Trip', new_user_session_path, class: 'btn btn-primary' %>
+            <% end %>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">List of Trips</h5>
+            <p class="card-text">Explore our available trips.</p>
+            <%= link_to 'View All Trips', trips_path, class: 'btn btn-primary' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
