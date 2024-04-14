@@ -1,70 +1,34 @@
+# app/controllers/add_ons_controller.rb
 class AddOnsController < ApplicationController
-  before_action :set_add_on, only: %i[ show edit update destroy ]
+  before_action :set_trip
+  before_action :authenticate_user!, only: [:new, :create]
 
-  # GET /add_ons or /add_ons.json
-  def index
-    @add_ons = AddOn.all
-  end
-
-  # GET /add_ons/1 or /add_ons/1.json
-  def show
-  end
-
-  # GET /add_ons/new
+  # GET /trips/:trip_id/add_ons/new
   def new
-    @add_on = AddOn.new
+    @add_on = @trip.add_ons.build
   end
 
-  # GET /add_ons/1/edit
-  def edit
-  end
-
-  # POST /add_ons or /add_ons.json
+  # POST /trips/:trip_id/add_ons
   def create
-    @add_on = AddOn.new(add_on_params)
-
-    respond_to do |format|
-      if @add_on.save
-        format.html { redirect_to add_on_url(@add_on), notice: "Add on was successfully created." }
-        format.json { render :show, status: :created, location: @add_on }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @add_on.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /add_ons/1 or /add_ons/1.json
-  def update
-    respond_to do |format|
-      if @add_on.update(add_on_params)
-        format.html { redirect_to add_on_url(@add_on), notice: "Add on was successfully updated." }
-        format.json { render :show, status: :ok, location: @add_on }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @add_on.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /add_ons/1 or /add_ons/1.json
-  def destroy
-    @add_on.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to add_ons_url, notice: "Add on was successfully destroyed." }
-      format.json { head :no_content }
+    @add_on = @trip.add_ons.build(add_on_params)
+    if @add_on.save
+      redirect_to @trip, notice: 'Add-on was successfully created.'
+    else
+      render :new
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_add_on
-      @add_on = AddOn.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def add_on_params
-      params.require(:add_on).permit(:name, :start_time, :end_time, :spot_limit, :trip_id)
-    end
+  def set_trip
+    @trip = Trip.find(params[:trip_id])
+  end
+
+  def set_add_on
+    @add_on = @trip.add_ons.find(params[:id])
+  end
+
+  def add_on_params
+    params.require(:add_on).permit(:name, :start_time, :end_time, :spot_limit, :description, :price)
+  end
 end
