@@ -1,24 +1,7 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Case: https://tourhero.notion.site/Full-stack-developer-coding-assessment-42221f2c2af240bfba86782c0602b502
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
+To run the apps, we just need to execute `docker-compose up --build`, and you will have everything run, but will always get its data refreshed for each restart.
 
 * ...
