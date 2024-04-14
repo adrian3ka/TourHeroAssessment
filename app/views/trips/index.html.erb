@@ -1,14 +1,25 @@
-<p style="color: green"><%= notice %></p>
-
-<h1>Trips</h1>
-
-<div id="trips">
-  <% @trips.each do |trip| %>
-    <%= render trip %>
-    <p>
-      <%= link_to "Show this trip", trip %>
-    </p>
-  <% end %>
+<div class="container">
+  <h1 class="my-4">List of Trips</h1>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Start Date</th>
+        <th scope="col">End Date</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @trips.each do |trip| %>
+        <tr>
+          <td><%= trip.name %></td>
+          <td><%= trip.start_date.strftime("%B %d, %Y") %></td>
+          <td><%= trip.end_date.strftime("%B %d, %Y") %></td>
+          <td>
+            <%= link_to 'View Details', trip_path(trip), class: 'btn btn-primary' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>
-
-<%= link_to "New trip", new_trip_path %>
